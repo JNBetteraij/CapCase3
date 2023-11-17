@@ -1,6 +1,5 @@
 <?php declare(strict_types = 1);
 
-$exampleArray = [1,2,3,4,5,6,7];
 include 'displayComponents/displayRecipeList.php';
 
 ?>
