@@ -4,13 +4,12 @@
     class DatabaseManager{
 
         private PDO $dbConnection;
+        private string $table = "recipes";
+        private array $columns = ["id", "date", "name", "brief_description", "preparation_time", "instructions"];
 
         public function __construct(){
             $this->createConnection();
         }
-
-        /* id, date, name, brief_description, preparation_time, instructions
-        */
 
         private function createConnection(){
             $username = "root";
@@ -21,8 +20,17 @@
             $this->dbConnection = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
         }
 
-        public function addRecipe(){
-            
+        public function addRecipe(Recipe $recipe): bool{
+            try {
+                $values = $recipe->convertToDabaseFormat();
+                // $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //will have to look up what this does
+                $statement = $this->dbConnection->query("INSERT INTO $this->table (implode(',',$this->columns))
+                VALUES (implode(',',$values))");
+                $statement->execute();
+                return true;
+            } catch (PDOException $pdoException) {
+                return false;
+            }
         }
 
         public function deleteRecipe(int $id): bool{
