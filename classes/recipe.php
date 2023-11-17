@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
-class Recipe{
+include_once("../classes/storable.php");
+class Recipe implements Storable{
     private int $id;
     private string $date;
     private string $name;
@@ -57,5 +58,9 @@ class Recipe{
 
     public function setInstructions($instructions): string{
         $this->instructions = $instructions;
+    }
+
+    public function convertToDatabaseFormat(){
+        return get_object_vars($this);
     }
 }
