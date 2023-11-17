@@ -34,12 +34,25 @@
         }
 
         public function deleteRecipe(int $id): bool{
-
-            return false;
+            try{
+                $statement = $this->dbConnection->query("DELETE FROM recipes WHERE id = $id");
+                $statement->execute();
+                return true;
+            }
+            catch (PDOException $pdoexception){
+                return false;
+            }
         }
 
         public function updateRecipe(int $id, Recipe $recipe): bool{
-
+            try{
+                $this->deleteRecipe($id);
+                $this->addRecipe($recipe);
+            }
+            catch (PDOException $pdoexception){
+                return false;
+            }
+            
             return false;
         }
 
@@ -47,7 +60,6 @@
             $statement = $this->dbConnection->query("SELECT * FROM recipes WHERE id = $id");
             $statement->execute();
             $data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
-            echo var_dump($data);
             $recipe = $this->createRecipeObject($data);
             return $recipe;
             //!Returns each column double without the for loop, find out why later
@@ -94,8 +106,13 @@
     //     echo $recipe->getName(). "<br>";
     //     echo $key . "<br>";
     // }
-    $recipe = $dbm->getRecipe(1);
-    echo var_dump($recipe);
+    $recipe = $dbm->getRecipe(2);
+    echo var_dump($recipe->convertToDatabaseFormat());
+    
+    //echo var_export($dbm->deleteRecipe(1), true);
+
+
+    // echo var_dump($recipe);
     // foreach($recipe as $key => $col){
     //     echo "$col<br>";
     // }
