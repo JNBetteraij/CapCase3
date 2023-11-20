@@ -69,34 +69,23 @@
         public function getAllRecipes(): array{
             $statement = $this->dbConnection->query("SELECT * FROM recipes");
             $statement->execute();
-            $data = $statement->fetchAll();
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             $recipes = [];
             foreach ($data as $row){
-                for ($i=count($row) - 1 ; $i >= 0 ; $i--) { 
-                    if ($i % 2 == 0){
-                        array_splice($row, $i, 1);
-                    }
-                }
-                array_push($row, []);
-                array_push($recipes, new Recipe(...$row));
+                array_push($recipes, $this->createRecipeObject($row));
             }
-            return $recipes;
-            /*foreach($recipes as $key => $recipe){
-                echo $recipe["name"]. "<br>";
-                echo $key . "<br>";
-            }*/
-            
-    
+            return $recipes;    
         }
 
         private function createRecipeObject(array $data){
-            $values = [];
-            foreach($data as $key => $row){
-                    array_push($values, $row); 
-                }
-            array_push($values, []); //Placeholder for ingredients
+            $values = array_values($data);
+            array_push($values, $this->getIngredients(""));
             $recipe = new Recipe(...$values);
             return $recipe;
+        }
+
+        private function getIngredients(string $id): array{
+            return [];
         }
         
     }

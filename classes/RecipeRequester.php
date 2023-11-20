@@ -12,6 +12,10 @@ class RecipeRequester {
     public function requestRecipeByID(string $id): Recipe{
         return $this->databaseManager->getRecipe($id);
     }
+
+    public function requestAllRecipes(): array{
+        return $this->databaseManager->getAllRecipes();
+    }
 }
 
 ?>

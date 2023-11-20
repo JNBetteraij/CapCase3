@@ -32,6 +32,15 @@ $recipeID = "Recipe missing";
                 }
             
             ?>
+
+            <br>
+
+            <?php
+            $recipes = $recipeRequester->requestAllRecipes();
+            foreach ($recipes as $recipe){
+                echo $recipe->getID() . "<br>";
+            }
+            ?>
         </p>
         <a href="index.php">terug naar de homepage</a>
     </main>

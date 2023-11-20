@@ -27,4 +27,3 @@ $recipeRequester = new RecipeRequester();
 </html>
 
 <?php
-?>
