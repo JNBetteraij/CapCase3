@@ -4,13 +4,12 @@
     class DatabaseManager{
 
         private PDO $dbConnection;
+        private string $table = "recipes";
+        private array $columns = ["id", "date", "name", "brief_description", "preparation_time", "instructions"];
 
         public function __construct(){
             $this->createConnection();
         }
-
-        /* id, date, name, brief_description, preparation_time, instructions
-        */
 
         private function createConnection(){
             $username = "root";
@@ -22,20 +21,16 @@
         }
 
         public function addRecipe(Recipe $recipe): bool{
-            try{
-                /*$recipeValues = $recipe->convertToDatabaseFormat();
-                $implodedValues = implode(',' , $recipeValues);
-                $result = "INSERT INTO recipes (id, submission_date, recipe_name, brief_description, preparation_time, instructions) VALUES ($implodedValues)";
-                echo $result . "<br>";
-                $statement = $this->dbConnection->query("INSERT INTO recipes (id, submission_date, recipe_name, brief_description, preparation_time, instructions) VALUES ($implodedValues)");
-                $statement->execute();*/
+            try {
+                $values = $recipe->convertToDabaseFormat();
+                // $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //will have to look up what this does
+                $statement = $this->dbConnection->query("INSERT INTO $this->table (implode(',',$this->columns))
+                VALUES (implode(',',$values))");
+                $statement->execute();
                 return true;
-            }
-            catch (PDOException $pdoException){
-                echo $pdoException . "<br>";
+            } catch (PDOException $pdoException) {
                 return false;
             }
-            
         }
 
         public function deleteRecipe(int $id): bool{
