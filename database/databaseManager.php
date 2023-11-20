@@ -22,7 +22,7 @@
 
         public function addRecipe(Recipe $recipe): bool{
             try {
-                $values = $recipe->convertToDabaseFormat();
+                $values = $recipe->convertToDatabaseFormat();
                 // $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //will have to look up what this does
                 $statement = $this->dbConnection->query("INSERT INTO $this->table (implode(',',$this->columns))
                 VALUES (implode(',',$values))");
@@ -109,8 +109,8 @@
     // }
     $recipe = $dbm->getRecipe("2");
     $converted = $recipe->convertToDatabaseFormat();
-    echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
-    echo var_dump($converted);
+    //echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
+    //echo var_dump($converted);
     
     
     //echo var_export($dbm->deleteRecipe(1), true);

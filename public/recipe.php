@@ -1,15 +1,8 @@
 <?php declare(strict_types = 1);
 
+include '../classes/RecipeRequester.php';
+$recipeRequester = new RecipeRequester();
 $recipeID = "Recipe missing";
-if(isset($_POST["selectedRecipe"]))
-{
-    $recipeID = $_POST["selectedRecipe"]; 
-}
-
-if (isset($_GET['id'])) {
-    $recipeID = $_GET['id'];
-    //echo "Test";
-}
 ?>
 
 <!DOCTYPE html>
@@ -29,9 +22,18 @@ if (isset($_GET['id'])) {
     <main>
         Tijd voor recept
         <p>
-            <?php echo $recipeID;?>
+            <?php
+            if(!empty($_GET["recipe"]))
+                {
+                    $recipeID = $_GET["recipe"];
+                    $retrievedRecipe = $recipeRequester->requestRecipeByID("$recipeID");
+                    echo $retrievedRecipe->getInstructions();
+                    $_GET["recipe"] = "";
+                }
+            
+            ?>
         </p>
-        <a href="http://localhost/CapCase3/public/">terug naar de homepage</a>
+        <a href="index.php">terug naar de homepage</a>
     </main>
 </body>
 </html>

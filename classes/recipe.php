@@ -63,4 +63,8 @@ class Recipe implements Storable{
     public function convertToDatabaseFormat(){
         return get_object_vars($this);
     }
+
+    public function convertToHTML(){
+        return "This works! This is recipe $this->id";
+    }
 }

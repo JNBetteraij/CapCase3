@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-$exampleArray = [19,1,3,4,35,66,7];
+$exampleArray = [19,2,3,4,35,66,7];
 
 function displayRecipeList(){
     $replace = ["{thumbnails}"];

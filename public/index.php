@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
 include 'displayComponents/displayRecipeList.php';
+include '../classes/RecipeRequester.php';
+$recipeRequester = new RecipeRequester();
 
 ?>
 
@@ -23,3 +25,6 @@ include 'displayComponents/displayRecipeList.php';
     </main>
 </body>
 </html>
+
+<?php
+?>
