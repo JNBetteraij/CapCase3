@@ -22,6 +22,19 @@
         }
 
         public function addRecipe(Recipe $recipe): bool{
+            try{
+                /*$recipeValues = $recipe->convertToDatabaseFormat();
+                $implodedValues = implode(',' , $recipeValues);
+                $result = "INSERT INTO recipes (id, submission_date, recipe_name, brief_description, preparation_time, instructions) VALUES ($implodedValues)";
+                echo $result . "<br>";
+                $statement = $this->dbConnection->query("INSERT INTO recipes (id, submission_date, recipe_name, brief_description, preparation_time, instructions) VALUES ($implodedValues)");
+                $statement->execute();*/
+                return true;
+            }
+            catch (PDOException $pdoException){
+                echo $pdoException . "<br>";
+                return false;
+            }
             
         }
 
@@ -31,7 +44,7 @@
                 $statement->execute();
                 return true;
             }
-            catch (PDOException $pdoexception){
+            catch (PDOException $pdoException){
                 return false;
             }
         }
@@ -40,15 +53,16 @@
             try{
                 $this->deleteRecipe($id);
                 $this->addRecipe($recipe);
+                return true;
             }
-            catch (PDOException $pdoexception){
+            catch (PDOException $pdoException){
                 return false;
             }
             
             return false;
         }
 
-        public function getRecipe(int $id): Recipe{
+        public function getRecipe(string $id): Recipe{
             $statement = $this->dbConnection->query("SELECT * FROM recipes WHERE id = $id");
             $statement->execute();
             $data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
@@ -98,8 +112,11 @@
     //     echo $recipe->getName(). "<br>";
     //     echo $key . "<br>";
     // }
-    $recipe = $dbm->getRecipe(2);
-    echo var_dump($recipe->convertToDatabaseFormat());
+    $recipe = $dbm->getRecipe("2");
+    $converted = $recipe->convertToDatabaseFormat();
+    echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
+    echo var_dump($converted);
+    
     
     //echo var_export($dbm->deleteRecipe(1), true);
 
