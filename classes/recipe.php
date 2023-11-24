@@ -10,11 +10,11 @@ class Recipe implements Storable{
     private string $instructions;
     private array $ingredients;
 
-    function __construct(int $id, string $date, string $name, string $descirption, int $prepTime, string $instructions, array $ingredients){
+    function __construct(int $id, string $date, string $name, string $description, int $prepTime, string $instructions, array $ingredients){
         $this->id = $id;
         $this->date = $date;
         $this->name = $name;
-        $this->description = $descirption;
+        $this->description = $description;
         $this->prepTime = $prepTime;
         $this->instructions = $instructions;
         $this->ingredients = $ingredients;
@@ -24,7 +24,7 @@ class Recipe implements Storable{
         return $this->id;
     }
 
-    public function setID($id): int{
+    public function setID($id): void{
         $this->id = $id;
     }
 
@@ -32,7 +32,7 @@ class Recipe implements Storable{
         return $this->date;
     }
 
-    public function setDate($date): string{
+    public function setDate($date): void{
         $this->date = $date;
     }
 
@@ -40,7 +40,7 @@ class Recipe implements Storable{
         return $this->description;
     }
 
-    public function setDescription($description): string{
+    public function setDescription($description): void{
         $this->description = $description;
     }
 
@@ -48,7 +48,7 @@ class Recipe implements Storable{
         return $this->name;
     }
 
-    public function setName($name): string{
+    public function setName($name): void{
         $this->name = $name;
     }
 
@@ -56,11 +56,27 @@ class Recipe implements Storable{
         return $this->instructions;
     }
 
-    public function setInstructions($instructions): string{
+    public function setInstructions($instructions): void{
         $this->instructions = $instructions;
     }
 
-    public function convertToDatabaseFormat(){
+    public function convertToDatabaseFormat(): array{
         return get_object_vars($this);
+    }
+
+    public function getRecipeTableValues(): object {
+        $tableData = new stdClass();
+        $tableData->headers = ["recipe_name", "brief_description", "preparation_time", "instructions"];
+        $tableData->values = [ 
+            $this->inQuotes($this->name),
+            $this->inQuotes($this->description),
+            $this->prepTime,
+            $this->inQuotes($this->instructions)
+        ];
+        return $tableData;
+    }
+
+    private function inQuotes($text): string{
+        return "'" . trim($text) . "'";
     }
 }
