@@ -158,7 +158,6 @@
                 //throw $exception;
             }
         }
-
         private function addEntryTonRecipeIngredientJoinTable(Recipe $recipe,Ingredient $ingredient){
             $recipeID = $recipe->getID();
             $ingredientID = $ingredient->getID();
@@ -193,16 +192,10 @@
         public function getAllRecipes(): array{
             $statement = $this->dbConnection->query("SELECT * FROM recipes");
             $statement->execute();
-            $data = $statement->fetchAll();
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             $recipes = [];
             foreach ($data as $row){
-                for ($i=count($row) - 1 ; $i >= 0 ; $i--) { 
-                    if ($i % 2 == 0){
-                        array_splice($row, $i, 1);
-                    }
-                }
-                array_push($row, []);
-                array_push($recipes, new Recipe(...$row));
+                array_push($recipes, $this->createRecipeObject($row));
             }
             return $recipes;
             /*foreach($recipes as $key => $recipe){
@@ -334,6 +327,18 @@
 #end region
     }
 
+    // $recipes = $dbm->getAllRecipes();
+    // foreach($recipes as $key => $recipe){
+    //     echo $recipe->getName(). "<br>";
+    //     echo $key . "<br>";
+    // }
+    //$recipe = $dbm->getRecipe("2");
+    //$converted = $recipe->convertToDatabaseFormat();
+    //echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
+    //echo var_dump($converted);
+    
+    
+    //echo var_export($dbm->deleteRecipe(1), true);
 
     // $dbm = new DatabaseManager();
 
