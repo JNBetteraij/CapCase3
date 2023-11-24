@@ -11,31 +11,15 @@ include_once('../classes/RecipeRequester.php');
         }
 
         public function displayRecipeList(){
-            $replace = ["{thumbnails}"];
             $recipes = $this->recipes;
-            $values = [];
+            $convertedValues = "";
             foreach ($recipes as $recipe){
-                array_push($values, $this->convertRecipeToThumbnail($recipe));
+                $convertedValues .= $this->convertRecipeToThumbnail($recipe);
             }
-            $template = file_get_contents("displayComponents/recipeList.html");
-            echo str_replace($replace, $values, $template);
+            return $convertedValues;
         }
     
         public function getAllRecipes(): array{
-                // global $exampleArray;
-            
-                // $recipies = $exampleArray;
-                // $thumbnails = [];
-            
-                // for ($i = 0; $i < count($recipies); $i++){
-                //     $value = $recipies[$i];
-                //     // echo $recipies[$i];
-                //     // echo $i;
-                //     array_push($thumbnails, getThumbnailElement($value));
-                // }
-                
-                // return implode("", $thumbnails);
-                // //return implode("",["<li>",implode("</li> <li>", $thumbnails),"</li>"]);
             return $this->recipeRequester->requestAllRecipes();
         }
 
@@ -49,14 +33,6 @@ include_once('../classes/RecipeRequester.php');
         }
 
         public static function convertRecipeToHTML(Recipe $recipe){
-            //private string $id;
-            //private string $date;
-            //private string $name;
-            //private string $description;
-            //private int $prepTime;
-            //private string $instructions;
-            //private array $ingredients;
-
             $replace = ["{id}", "{date}", "{name}", "{description}", "{prepTime}", "{instructions}, {ingredients}"];
             $values = [$recipe->getID(), $recipe->getDate(), $recipe->getName(), $recipe->getDescription(),
             $recipe->getPrepTime(), RecipeDisplayer::convertInstructionsToHTML($recipe->getInstructions())];

@@ -21,7 +21,7 @@ $recipeDisplayer = new RecipeDisplayer();
         </h1>
     </header>
     <main>
-        <?php $recipeDisplayer->displayRecipeList();?>
+        <?php echo $recipeDisplayer->displayRecipeList();?>
     </main>
 </body>
 </html>
