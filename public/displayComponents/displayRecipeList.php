@@ -11,14 +11,17 @@ include_once('../classes/RecipeRequester.php');
         }
 
         public function displayRecipeList(){
-            $replace = ["{thumbnails}"];
+            //$replace = ["{thumbnails}"];
             $recipes = $this->recipes;
-            $values = [];
+            $convertedValues = "";
             foreach ($recipes as $recipe){
-                array_push($values, $this->convertRecipeToThumbnail($recipe));
+                $convertedValues .= $this->convertRecipeToThumbnail($recipe);
             }
-            $template = file_get_contents("displayComponents/recipeList.html");
-            echo str_replace($replace, $values, $template);
+            //echo var_dump($values);
+            return $convertedValues;
+            
+            //$template = file_get_contents("displayComponents/recipeList.html");
+            //echo str_replace($replace, $values, $template);
         }
     
         public function getAllRecipes(): array{
