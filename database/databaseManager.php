@@ -22,7 +22,7 @@
 
         public function addRecipe(Recipe $recipe): bool{
             try {
-                $values = $recipe->convertToDabaseFormat();
+                $values = $recipe->convertToDatabaseFormat();
                 // $this->dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //will have to look up what this does
                 $statement = $this->dbConnection->query("INSERT INTO $this->table (implode(',',$this->columns))
                 VALUES (implode(',',$values))");
@@ -39,7 +39,7 @@
                 $statement->execute();
                 return true;
             }
-            catch (PDOException $pdoexception){
+            catch (PDOException $pdoException){
                 return false;
             }
         }
@@ -48,15 +48,16 @@
             try{
                 $this->deleteRecipe($id);
                 $this->addRecipe($recipe);
+                return true;
             }
-            catch (PDOException $pdoexception){
+            catch (PDOException $pdoException){
                 return false;
             }
             
             return false;
         }
 
-        public function getRecipe(int $id): Recipe{
+        public function getRecipe(string $id): Recipe{
             $statement = $this->dbConnection->query("SELECT * FROM recipes WHERE id = $id");
             $statement->execute();
             $data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
@@ -68,34 +69,23 @@
         public function getAllRecipes(): array{
             $statement = $this->dbConnection->query("SELECT * FROM recipes");
             $statement->execute();
-            $data = $statement->fetchAll();
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
             $recipes = [];
             foreach ($data as $row){
-                for ($i=count($row) - 1 ; $i >= 0 ; $i--) { 
-                    if ($i % 2 == 0){
-                        array_splice($row, $i, 1);
-                    }
-                }
-                array_push($row, []);
-                array_push($recipes, new Recipe(...$row));
+                array_push($recipes, $this->createRecipeObject($row));
             }
-            return $recipes;
-            /*foreach($recipes as $key => $recipe){
-                echo $recipe["name"]. "<br>";
-                echo $key . "<br>";
-            }*/
-            
-    
+            return $recipes;    
         }
 
         private function createRecipeObject(array $data){
-            $values = [];
-            foreach($data as $key => $row){
-                    array_push($values, $row); 
-                }
-            array_push($values, []); //Placeholder for ingredients
+            $values = array_values($data);
+            array_push($values, $this->getIngredients(""));
             $recipe = new Recipe(...$values);
             return $recipe;
+        }
+
+        private function getIngredients(string $id): array{
+            return [];
         }
         
     }
@@ -106,8 +96,11 @@
     //     echo $recipe->getName(). "<br>";
     //     echo $key . "<br>";
     // }
-    $recipe = $dbm->getRecipe(2);
-    echo var_dump($recipe->convertToDatabaseFormat());
+    $recipe = $dbm->getRecipe("2");
+    $converted = $recipe->convertToDatabaseFormat();
+    //echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
+    //echo var_dump($converted);
+    
     
     //echo var_export($dbm->deleteRecipe(1), true);
 

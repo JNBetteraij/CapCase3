@@ -1,15 +1,11 @@
 <?php declare(strict_types = 1);
 
-$recipeID = "Recipe missing";
-if(isset($_POST["selectedRecipe"]))
-{
-    $recipeID = $_POST["selectedRecipe"]; 
-}
+include_once '../classes/RecipeRequester.php';
+include_once 'displayComponents/displayRecipeList.php';
 
-if (isset($_GET['id'])) {
-    $recipeID = $_GET['id'];
-    //echo "Test";
-}
+$recipeRequester = new RecipeRequester();
+
+$recipeID = "Recipe missing";
 ?>
 
 <!DOCTYPE html>
@@ -27,11 +23,29 @@ if (isset($_GET['id'])) {
         </h1>
     </header>
     <main>
-        Tijd voor recept
         <p>
-            <?php echo $recipeID;?>
+            <?php
+            if(!empty($_GET["recipe"]))
+                {
+                    $recipeID = $_GET["recipe"];
+                    $retrievedRecipe = $recipeRequester->requestRecipeByID("$recipeID");
+                    //echo $retrievedRecipe->getInstructions();
+                    echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
+                    $_GET["recipe"] = "";
+                }
+            
+            ?>
+
+            <br>
+
+            <?php
+                // $recipes = $recipeRequester->requestAllRecipes();
+                // foreach ($recipes as $recipe){
+                //     echo $recipe->getID() . "<br>";
+                // }
+            ?>
         </p>
-        <a href="http://localhost/CapCase3/public/">terug naar de homepage</a>
+        <a href="index.php">Terug naar de homepage</a>
     </main>
 </body>
 </html>
