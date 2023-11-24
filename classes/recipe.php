@@ -52,6 +52,15 @@ class Recipe implements Storable{
         $this->name = $name;
     }
 
+    public function getPrepTime(): int{
+        return $this->prepTime;
+        
+    }
+
+    public function setPrepTime(int $prepTime){
+        $this->prepTime = $prepTime;
+    } 
+
     public function getInstructions(): string{
         return $this->instructions;
     }

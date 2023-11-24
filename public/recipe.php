@@ -1,7 +1,10 @@
 <?php declare(strict_types = 1);
 
-include '../classes/RecipeRequester.php';
+include_once '../classes/RecipeRequester.php';
+include_once 'displayComponents/displayRecipeList.php';
+
 $recipeRequester = new RecipeRequester();
+
 $recipeID = "Recipe missing";
 ?>
 
@@ -20,14 +23,14 @@ $recipeID = "Recipe missing";
         </h1>
     </header>
     <main>
-        Tijd voor recept
         <p>
             <?php
             if(!empty($_GET["recipe"]))
                 {
                     $recipeID = $_GET["recipe"];
                     $retrievedRecipe = $recipeRequester->requestRecipeByID("$recipeID");
-                    echo $retrievedRecipe->getInstructions();
+                    //echo $retrievedRecipe->getInstructions();
+                    echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
                     $_GET["recipe"] = "";
                 }
             
@@ -36,13 +39,13 @@ $recipeID = "Recipe missing";
             <br>
 
             <?php
-            $recipes = $recipeRequester->requestAllRecipes();
-            foreach ($recipes as $recipe){
-                echo $recipe->getID() . "<br>";
-            }
+                // $recipes = $recipeRequester->requestAllRecipes();
+                // foreach ($recipes as $recipe){
+                //     echo $recipe->getID() . "<br>";
+                // }
             ?>
         </p>
-        <a href="index.php">terug naar de homepage</a>
+        <a href="index.php">Terug naar de homepage</a>
     </main>
 </body>
 </html>

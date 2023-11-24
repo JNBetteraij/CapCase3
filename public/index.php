@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 
-include 'displayComponents/displayRecipeList.php';
-include '../classes/RecipeRequester.php';
+include_once 'displayComponents/displayRecipeList.php';
+include_once '../classes/RecipeRequester.php';
 $recipeRequester = new RecipeRequester();
-
+$recipeDisplayer = new RecipeDisplayer();
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@ $recipeRequester = new RecipeRequester();
         </h1>
     </header>
     <main>
-        <?php displayRecipeList();?>
+        <?php $recipeDisplayer->displayRecipeList();?>
     </main>
 </body>
 </html>
