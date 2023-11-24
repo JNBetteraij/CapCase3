@@ -8,16 +8,18 @@ class Ingredient implements Storable{
     private int $amount;
     private string $units;
 
-    function __construct(int|null $id, string $name, string $description){
+    function __construct(int|null $id, string $name, string $description, int $amount, string $units){
         if(!is_null($id)){
             $this->setID($id);
         }
         $this->setName($name);
         $this->setDescription($description);
+        $this->setAmount($amount);
+        $this->setUnits($units);
     }
     
 #region get/set
-    public function getID(): int{
+    public function getID(): int|null{
         return $this->id;
     }
 
@@ -73,4 +75,4 @@ class Ingredient implements Storable{
     }
 }
 
-$testIngredient = new Ingredient(null,"test","description");
+$testIngredient = new Ingredient(null,"test","description",45,"barrels");

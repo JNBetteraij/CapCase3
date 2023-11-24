@@ -29,7 +29,7 @@
         }
 
 #region database set up
-        public function setupDatabase(){
+        public function setupDatabase(): void{
             $this->createDatabase();
             $this->createRecipeTable();
             $this->createIngredientTable();
@@ -97,19 +97,14 @@
         }
 #end region
         
-#region add entries
-        public function addRecipe(Recipe $recipe): int|Exception{
+#region create/add entries
+        public function addRecipe(Recipe $recipe): int{
             try {
                 $recipeTableData = $recipe->getRecipeTableValues();
                 $columnHeaders = implode(',',$recipeTableData->headers);
                 $columnValues = implode(',',$recipeTableData->values);
 
-                echo "see if this runs<br>";
-
-                // $statement = $this->dbConnection->prepare("INSERT INTO $this->recipeTableName ($columnHeaders)
-                // VALUES($columnValues)");
-                
-                $statement = $this->dbConnection->prepare("INSERT INTO bestaat_niet ($columnHeaders)
+                $statement = $this->dbConnection->prepare("INSERT INTO $this->recipeTableName ($columnHeaders)
                 VALUES($columnValues)");
 
                 $statement->execute();
@@ -124,7 +119,7 @@
             }
         }
 
-        public function addIngredient(Ingredient $ingredient): string|false{
+        public function addIngredient(Ingredient $ingredient): int|null{
             try {
                 $tableData = $ingredient->convertToDatabaseFormat();
                 $columnHeaders = implode(',',$tableData->headers);
@@ -135,10 +130,10 @@
                 $statement->execute();
 
                 $id = $this->dbConnection->lastInsertId();
-                if(is_bool($id) && !$id){
-                    
+                if(!is_bool($id)){
+                    return (int)$id;
                 }
-                return $id;
+                return null;
             } 
             catch (PDOException $pdoException) {
                 echo $pdoException;
@@ -174,12 +169,25 @@
         
 #region read/get entries
         public function getRecipe(int $id): Recipe{
-            $statement = $this->dbConnection->query("SELECT * FROM recipes WHERE id = $id");
+            $statement = $this->dbConnection->prepare("SELECT * FROM $this->recipeTableName WHERE id = $id");
             $statement->execute();
-            $data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
+            $data = $statement->fetch(PDO::FETCH_ASSOC);
+            //$data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
             $recipe = $this->createRecipeObject($data);
+
+            //get recipe id, fetch all ingredient data through the join table, add these to ingredients in the recipe
+
+            $ingredients = $this->getAllIngredientsFromRecipe($id);
+
+            // echo "<br>";
+            // echo count($ingredients);
+            // echo "<br>";echo "<br>";
+            // echo var_dump($ingredients[1]);
+
+            $recipe->setIngredients($ingredients);
+            // echo "<br>";echo "<br>";
+            // echo var_dump($recipe);
             return $recipe;
-            //!Returns each column double without the for loop, find out why later
         }
 
         public function getAllRecipes(): array{
@@ -203,7 +211,45 @@
             }*/
         }
 
-        private function createRecipeObject(array $data){
+        public function getAllIngredientsFromRecipe($id): array{
+            $statement = $this->dbConnection->prepare("SELECT 
+            $this->ingredientTableName.id,
+            $this->ingredientTableName.ingredient_name,
+            $this->ingredientTableName.brief_description,
+            $this->joinTableName.amount,
+            $this->joinTableName.units
+            FROM $this->joinTableName
+            INNER JOIN $this->ingredientTableName ON $this->joinTableName.ingredient_id
+            WHERE $this->joinTableName.recipe_id = $id");
+
+            $statement->execute();
+
+            $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $ingredients = [];
+            // echo count($data);
+
+            for ($i=count($data) - 1 ; $i >= 0 ; $i--) { 
+                if ($i % 2 == 0){
+                    // echo "<br>";
+                    array_splice($data, $i, 1);
+                }
+                else{
+
+                    // echo count(array_values($data[$i]));
+                    // echo "<br>";
+                    array_push($ingredients, new Ingredient(...array_values($data[$i])));
+                }
+            }
+
+
+            foreach ($data as $row){
+                
+            }
+            return $ingredients;
+        }
+
+        private function createRecipeObject(array $data): Recipe{
             $values = [];
             foreach($data as $key => $row){
                     array_push($values, $row); 
@@ -212,6 +258,16 @@
             $recipe = new Recipe(...$values);
             return $recipe;
         }
+
+        // private function  createIngredientObject($data): Ingredient{
+        //     $values = [];
+        //     foreach($data as $key => $row){
+        //             array_push($values, $row); 
+        //         }
+
+        //     $ingredient = new Ingredient(...$values);
+        //     return $ingredient;
+        // }
 #end region
 
 #region update entries
@@ -234,6 +290,7 @@
                 $this->updateEntryInTable($this->recipeTableName, $id, $updatedColumnHeaders, $updatedColumnValues);
         }
 
+        //note before passing string values these need to be surrounded with ''
         public function updateEntryInTable(string $tableName, int $id, array $columnHeaders, array $columnValues):void{
             try{
                 $updates = [];
@@ -278,16 +335,21 @@
     }
 
 
-    $dbm = new DatabaseManager();
-    echo "test error handling<br>";
-    $testRecipe = new Recipe(0, date("Y-m-d H:i:s"), "recipe title", "brief_description", 69, "instruction list",[]);
-    try {
-        $result = $dbm->addRecipe($testRecipe);
-        echo "result:".$result."<br><br>";
-        echo "$result is van type: ".gettype($result)."<br>";
-    } catch (\Throwable $th) {
-        echo "caught error <br><br>";
-    }
+    // $dbm = new DatabaseManager();
+
+    // $recipe = $dbm->getRecipe(1);
+
+    //echo var_dump($recipe->getIngredients());
+
+    // echo "test error handling<br>";
+    // $testRecipe = new Recipe(0, date("Y-m-d H:i:s"), "recipe title", "brief_description", 69, "instruction list",[]);
+    // try {
+    //     $result = $dbm->addRecipe($testRecipe);
+    //     echo "result:".$result."<br><br>";
+    //     echo "$result is van type: ".gettype($result)."<br>";
+    // } catch (\Throwable $th) {
+    //     echo "caught error <br><br>";
+    // }
     
 
     // $updateRecipe = new Recipe(0, date("Y-m-d H:i:s"), "updated recipe title", "updated description", 109, "new instruction list",[]);

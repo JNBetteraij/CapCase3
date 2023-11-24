@@ -60,6 +60,14 @@ class Recipe implements Storable{
         $this->instructions = $instructions;
     }
 
+    public function getIngredients(): array{
+        return $this->ingredients;
+    }
+
+    public function setIngredients($ingredients): void{
+        $this->ingredients = $ingredients;
+    }
+
     public function convertToDatabaseFormat(): array{
         return get_object_vars($this);
     }
