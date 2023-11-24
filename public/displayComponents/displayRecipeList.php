@@ -53,7 +53,7 @@ include_once('../classes/RecipeRequester.php');
             $convertedIngredients = ""; 
             foreach ($ingredients as $ingredients){
                 $replace = ["{instructions}"];
-                $values = [$instructions];
+                $values = [$ingredients];
 
                 $template = file_get_contents("displayComponents/recipeIngredient.html");
                 $convertedIngredients += str_replace($replace, $values, $template);
