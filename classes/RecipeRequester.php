@@ -9,12 +9,16 @@ class RecipeRequester {
         $this->databaseManager = new DatabaseManager();
     }
 
-    public function requestRecipeByID(string $id): Recipe{
+    public function requestRecipeByID(int $id): Recipe{
         return $this->databaseManager->getRecipe($id);
     }
 
     public function requestAllRecipes(): array{
         return $this->databaseManager->getAllRecipes();
+    }
+
+    public function requestAllIngredientsFromRecipe(int $id): array{
+        return $this->databaseManager->getAllIngredientsFromRecipe($id);
     }
 }
 

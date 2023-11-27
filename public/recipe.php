@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 include_once '../classes/RecipeRequester.php';
-include_once 'displayComponents/displayRecipeList.php';
+include_once 'displayComponents/RecipeDisplayer.php';
 
 $recipeRequester = new RecipeRequester();
 
@@ -27,8 +27,8 @@ $recipeID = "Recipe missing";
             <?php
             if(!empty($_GET["recipe"]))
                 {
-                    $recipeID = $_GET["recipe"];
-                    $retrievedRecipe = $recipeRequester->requestRecipeByID("$recipeID");
+                    $recipeID = (int)$_GET["recipe"]; //Dit moet nog gevalideerd worden!
+                    $retrievedRecipe = $recipeRequester->requestRecipeByID($recipeID);
                     //echo $retrievedRecipe->getInstructions();
                     echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
                     $_GET["recipe"] = "";
