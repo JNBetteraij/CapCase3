@@ -7,10 +7,10 @@ class Recipe implements Storable{
     private string $name;
     private string $description;
     private int $prepTime;
-    private string $instructions;
+    private array $instructions;
     private array $ingredients;
 
-    function __construct(int $id, string $date, string $name, string $description, int $prepTime, string $instructions, array $ingredients){
+    function __construct(int $id, string $date, string $name, string $description, int $prepTime, array $instructions, array $ingredients){
         $this->id = $id;
         $this->date = $date;
         $this->name = $name;
@@ -61,7 +61,7 @@ class Recipe implements Storable{
         $this->prepTime = $prepTime;
     } 
 
-    public function getInstructions(): string{
+    public function getInstructions(): array{
         return $this->instructions;
     }
 

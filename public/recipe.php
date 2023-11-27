@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 include_once '../classes/RecipeRequester.php';
-include_once 'displayComponents/displayRecipeList.php';
+include_once 'displayComponents/RecipeDisplayer.php';
 
 $recipeRequester = new RecipeRequester();
 
@@ -25,14 +25,25 @@ $recipeID = "Recipe missing";
     <main>
         <p>
             <?php
-            if(!empty($_GET["recipe"]))
-                {
-                    $recipeID = $_GET["recipe"];
-                    $retrievedRecipe = $recipeRequester->requestRecipeByID("$recipeID");
-                    //echo $retrievedRecipe->getInstructions();
-                    echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
-                    $_GET["recipe"] = "";
-                }
+
+            function sanitizeInput(string $data): string 
+            {   
+                $data = trim($data);
+                $data = stripslashes($data);
+                $data = htmlspecialchars($data);   
+                return $data; 
+            }
+
+            if(empty($_GET["recipe"]) || !is_numeric($_GET["recipe"])){
+                echo "Not a valid recipe ID.";
+            }
+            else{
+                $recipeID = (int)sanitizeInput($_GET["recipe"]); //Dit moet nog gevalideerd worden!
+                $retrievedRecipe = $recipeRequester->requestRecipeByID($recipeID);
+                //echo $retrievedRecipe->getInstructions();
+                echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
+                $_GET["recipe"] = "";
+            }
             
             ?>
 

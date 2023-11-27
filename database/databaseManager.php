@@ -104,6 +104,7 @@
                 $columnHeaders = implode(',',$recipeTableData->headers);
                 $columnValues = implode(',',$recipeTableData->values);
 
+
                 $statement = $this->dbConnection->prepare("INSERT INTO $this->recipeTableName ($columnHeaders)
                 VALUES($columnValues)");
 
@@ -243,13 +244,9 @@
         }
 
         private function createRecipeObject(array $data): Recipe{
-            $values = [];
-            foreach($data as $key => $row){
-                    array_push($values, $row); 
-                }
-            array_push($values, []); //Placeholder for ingredients
-            $recipe = new Recipe(...$values);
-            return $recipe;
+            $data["instructions"] = json_decode($data["instructions"]); 
+            $values = [...array_values($data), []]; //the trailing [] is a placeholder for ingredients
+            return new Recipe(...$values);
         }
 
         // private function  createIngredientObject($data): Ingredient{
@@ -347,7 +344,6 @@
     
     //echo var_export($dbm->deleteRecipe(1), true);
 
-    
 
     // $recipe = $dbm->getRecipe(1);
 
