@@ -34,7 +34,7 @@ $recipeID = "Recipe missing";
                 return $data; 
             }
 
-            if(empty($_GET["recipe"]) || !is_int($_GET["recipe"])){
+            if(empty($_GET["recipe"]) || !is_numeric($_GET["recipe"])){
                 echo "Not a valid recipe ID.";
             }
             else{

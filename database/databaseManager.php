@@ -244,22 +244,9 @@
         }
 
         private function createRecipeObject(array $data): Recipe{
-            $values = [];
-            foreach($data as $key => $row){
-                    if ($key === "instructions"){
-                        array_push($values, json_decode($row));
-                        //$newArray = ["1. Lees de instructies", "1. Lees de instructies", "1. Lees de instructies", "1. Lees de instructies"];
-
-                        //echo $row;
-                    }
-                    else{
-                        array_push($values, $row);
-                    }
-                    //array_push($values, $row);
-                }
-            array_push($values, []); //Placeholder for ingredients
-            $recipe = new Recipe(...$values);
-            return $recipe;
+            $data["instructions"] = json_decode($data["instructions"]); 
+            $values = [...array_values($data), []]; //the trailing [] is a placeholder for ingredients
+            return new Recipe(...$values);
         }
 
         // private function  createIngredientObject($data): Ingredient{
