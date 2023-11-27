@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-include_once 'displayComponents/displayRecipeList.php';
+include_once 'displayComponents/RecipeDisplayer.php';
 include_once '../classes/RecipeRequester.php';
 $recipeRequester = new RecipeRequester();
 $recipeDisplayer = new RecipeDisplayer();

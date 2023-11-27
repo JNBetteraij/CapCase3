@@ -9,7 +9,7 @@ class RecipeRequester {
         $this->databaseManager = new DatabaseManager();
     }
 
-    public function requestRecipeByID(string $id): Recipe{
+    public function requestRecipeByID(int $id): Recipe{
         return $this->databaseManager->getRecipe($id);
     }
 
