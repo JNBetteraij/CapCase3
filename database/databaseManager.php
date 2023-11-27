@@ -324,6 +324,13 @@
 #end region
     }
 
+#test Adding recipe
+    // $dbm = new DatabaseManager();
+    // $newRecipe = new Recipe(0, date("Y-m-d H:i:s"), "Recipe No: ".random_int(0,100), "brief_description", random_int(0,100), "instruction list",[]);
+    // $dbm->addRecipe($newRecipe);
+#end region
+
+
     // $recipes = $dbm->getAllRecipes();
     // foreach($recipes as $key => $recipe){
     //     echo $recipe->getName(). "<br>";
@@ -337,7 +344,6 @@
     
     //echo var_export($dbm->deleteRecipe(1), true);
 
-    //$dbm = new DatabaseManager();
 
     // $recipe = $dbm->getRecipe(1);
 

@@ -65,7 +65,8 @@ class Recipe implements Storable{
         return $this->instructions;
     }
 
-    public function setInstructions($instructions): void{
+    public function setInstructions(string|array $instructions): void{
+        $instructions = [...$instructions];
         $this->instructions = $instructions;
     }
 
