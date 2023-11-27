@@ -9,7 +9,7 @@ class RecipeListDisplay{
 
     public function displayRecipeList(){
         $replace = ["{thumbnails}","{thumbnailGrid}"];
-        $values = [implode("",$this->getThumbnailElements(10,15)),""];
+        $values = [implode("",$this->getThumbnailElements()),""];
         $template = file_get_contents("displayComponents/recipeList.html");
         echo str_replace($replace, $values, $template);
     }
