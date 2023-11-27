@@ -27,8 +27,6 @@ class RecipeListDisplay{
             $newElement = $this->convertRecipeToThumbnailElement($recipe);
             array_push($elements, $newElement);
         }
-
-        echo "we cool?";
         
         return $elements;
     }
