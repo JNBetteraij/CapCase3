@@ -2,7 +2,7 @@
 
 include_once("../classes/storable.php");
 class Recipe implements Storable{
-    private string $id;
+    private int $id;
     private string $date;
     private string $name;
     private string $description;
@@ -20,7 +20,7 @@ class Recipe implements Storable{
         $this->ingredients = $ingredients;
     }
     
-    public function getID(): string{
+    public function getID(): int{
         return $this->id;
     }
 
@@ -65,7 +65,8 @@ class Recipe implements Storable{
         return $this->instructions;
     }
 
-    public function setInstructions($instructions): void{
+    public function setInstructions(string|array $instructions): void{
+        $instructions = [...$instructions];
         $this->instructions = $instructions;
     }
 
