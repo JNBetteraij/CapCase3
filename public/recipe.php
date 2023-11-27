@@ -34,15 +34,15 @@ $recipeID = "Recipe missing";
                 return $data; 
             }
 
-            if(empty($_GET["recipe"]) || !is_numeric($_GET["recipe"])){
+            if(empty($_GET["id"]) || !is_numeric($_GET["id"])){
                 echo "Not a valid recipe ID.";
             }
             else{
-                $recipeID = (int)sanitizeInput($_GET["recipe"]); //Dit moet nog gevalideerd worden!
+                $recipeID = (int)sanitizeInput($_GET["id"]); //Dit moet nog gevalideerd worden!
                 $retrievedRecipe = $recipeRequester->requestRecipeByID($recipeID);
                 //echo $retrievedRecipe->getInstructions();
                 echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
-                $_GET["recipe"] = "";
+                $_GET["id"] = "";
             }
             
             ?>

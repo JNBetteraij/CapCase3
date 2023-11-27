@@ -14,7 +14,7 @@ class RecipeListDisplay{
         echo str_replace($replace, $values, $template);
     }
 
-    private function getThumbnailElements(int $maxAmount = INF, int $startIndex = 0): array{
+    private function getThumbnailElements(int $maxAmount = PHP_INT_MAX, int $startIndex = 0): array{
         $elements = [];
 
         $recipes = $this->getAllRecipes();
