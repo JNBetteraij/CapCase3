@@ -350,7 +350,7 @@
     
     //echo var_export($dbm->deleteRecipe(1), true);
 
-    $dbm = new DatabaseManager();
+    //$dbm = new DatabaseManager();
 
     // $recipe = $dbm->getRecipe(1);
 

@@ -16,10 +16,6 @@ class RecipeRequester {
     public function requestAllRecipes(): array{
         return $this->databaseManager->getAllRecipes();
     }
-
-    public function requestAllIngredientsFromRecipe(int $id): array{
-        return $this->databaseManager->getAllIngredientsFromRecipe($id);
-    }
 }
 
 ?>

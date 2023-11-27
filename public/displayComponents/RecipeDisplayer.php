@@ -9,36 +9,24 @@ include_once('../classes/RecipeRequester.php');
             $this->recipeRequester = new RecipeRequester();
             $this->recipes = $this->getAllRecipes();
         }
-
-        public function displayRecipeList(){
-            $recipes = $this->recipes;
-            $convertedValues = "";
-            foreach ($recipes as $recipe){
-                $convertedValues .= $this->convertRecipeToThumbnail($recipe);
-            }
-            return $convertedValues;
-        }
     
         public function getAllRecipes(): array{
             return $this->recipeRequester->requestAllRecipes();
         }
 
-        private function convertRecipeToThumbnail(Recipe $recipe){
-
-            $replace = ["{id}"];
-            $value = [$recipe->getID()];
-
-            $template = file_get_contents("displayComponents/recipeThumbnail.html");
-            return str_replace($replace, $value, $template);
-        }
-
         public static function convertRecipeToHTML(Recipe $recipe){
             $replace = ["{id}", "{date}", "{name}", "{description}", "{prepTime}", "{instructions}", "{ingredients}"];
-            $values = [$recipe->getID(), $recipe->getDate(), $recipe->getName(), $recipe->getDescription(),
-            $recipe->getPrepTime(), RecipeDisplayer::convertInstructionsToHTML($recipe->getInstructions())];
+            $values = [
+                $recipe->getID(), 
+                $recipe->getDate(), 
+                $recipe->getName(), 
+                $recipe->getDescription(),
+                $recipe->getPrepTime(), RecipeDisplayer::convertInstructionsToHTML($recipe->getInstructions()),
+                RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients())
+            ];
             //$ingredients = recipeRequester->requestAllIngredientsFromRecipe($recipe->getID());
-            $ingredients = RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients());
-            array_push($values, $ingredients);
+            // $ingredients = RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients());
+            // array_push($values, $ingredients);
             $template = file_get_contents("displayComponents/recipeLayout.html");
             return str_replace($replace, $values, $template);
         }
@@ -54,12 +42,6 @@ include_once('../classes/RecipeRequester.php');
         }
 
         public static function convertIngredientsToHTML(array $ingredients){
-            /*$convertedIngredients = "";
-            $replace = ["{ingredients}"];
-            $template = file_get_contents("displayComponents/recipeIngredient.html");
-            foreach ($ingredients as $ingredient){
-                $convertedHTML .= str_replace($replace, $ingredient, $template);
-            }*/
             $convertedHTML = "";
             foreach ($ingredients as $ingredient){
                 $replace = ["{ingredients}"];
@@ -67,15 +49,6 @@ include_once('../classes/RecipeRequester.php');
                 $convertedHTML .= str_replace($replace, $ingredient->getName(), $template);
             }
             return $convertedHTML;
-        }
-        
-        public function getThumbnailElement(int $id): string{
-        
-            $replace = ["{id}"];
-            $values = ["$id"];
-        
-            $template = file_get_contents("displayComponents/recipeThumbnail.html");
-            return str_replace($replace, $values, $template);
         }
     }
 ?>
