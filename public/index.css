@@ -18,7 +18,7 @@
 }
 
 .thumbnail:hover .thumbnail-name{
-    opacity: 0.8
+    opacity: 0.9;
 }
 
 /*.thumbnail-small:hover{

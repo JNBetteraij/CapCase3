@@ -36,8 +36,8 @@ class RecipeListDisplay{
     }
 
     private function convertRecipeToThumbnailElement(Recipe $recipe): string{
-        $replace = ["{id}"];
-        $value = [$recipe->getID()];
+        $replace = ["{id}", "{name}"];
+        $value = [$recipe->getID(), $recipe->getName()];
 
         $template = file_get_contents("displayComponents/recipeThumbnail.html");
         return str_replace($replace, $value, $template);
