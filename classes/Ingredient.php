@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
-include_once("../classes/storable.php");
+include_once "../classes/storable.php";
+
 class Ingredient implements Storable{
     private int $id;
     private string $name;
@@ -70,9 +71,18 @@ class Ingredient implements Storable{
         return $tableData;
     }
 
+    public function convertToJoinTableFormat(){
+        $tableData = new stdClass();
+        $tableData->headers = ["ingredient_id", "amount", "units "];
+        $tableData->values = [
+            $this->getID(),
+            $this->getAmount(),
+            $this->inQuotes($this->getUnits())
+        ];
+        return $tableData;
+    }
+
     private function inQuotes($text): string{
         return "'" . trim($text) . "'";
     }
 }
-
-$testIngredient = new Ingredient(null,"test","description",45,"barrels");

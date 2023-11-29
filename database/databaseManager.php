@@ -21,6 +21,141 @@
                 //note: currently assuming db doesn't exist, therefor run setup for database
                 $this->setupDatabase();
                 $this->dbConnection = $this->createDBConnection();
+                $this->populateDatabaseWithTestRecipes();
+            }
+        }
+
+        public function populateDatabaseWithTestRecipes(){
+
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(
+                    1, 
+                    date("Y-m-d H:i:s"), 
+                    "Pannenkoeken", 
+                    "Deze traditionele Nederlandse lekkerheid valt bij jong en oud in de smaak. Combineer met wat je maar wil voor eindeloze variatie. Smakelijk eten!",
+                    random_int(0,100),
+                    ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
+                        "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
+                        "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
+                        "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
+                        "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
+                        "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."],
+                    []
+                ),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(2, date("Y-m-d H:i:s"), "Kipsate", "Een heerlijke combinatie van smaken en texturen, typisch voor de Maleisische keuken. Eet smakelijk!", random_int(0,100),
+                ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
+                "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
+                "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
+                "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
+                "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
+                "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."],[]),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(3, date("Y-m-d H:i:s"), "Boerenkool met Worst", "Dit traditionele gerecht is vooral populair in de koudere maanden en biedt een heerlijke combinatie van smaken en texturen. Eet smakelijk!", random_int(0,100),
+                ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
+                "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
+                "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
+                "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
+                "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
+                "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."],[]),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(4, 
+                date("Y-m-d H:i:s"), 
+                "Spaghetti Bolognese", 
+                "Dit klassieke Italiaanse gerecht is een favoriet in veel Nederlandse huishoudens en vormt een perfecte maaltijd voor zowel doordeweekse dagen als speciale gelegenheden. Eet smakelijk!", 
+                random_int(0,100), 
+                ["1. Lees de instructies","2. Volg de instructies","3. Controleer de instructies","4. Eet de instructies"],
+                []),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(5, date("Y-m-d H:i:s"), 
+                "Kip Burritos", 
+                "Deze burritos zijn een heerlijke combinatie van Mexicaanse smaken met een Nederlands tintje. Eet smakelijk!",
+                random_int(0,100),
+                ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
+                "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
+                "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
+                "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
+                "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
+                "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."
+                ],
+                []),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+
+            $this->populateDatabaseWithTestRecipe(
+                new Recipe(6, 
+                date("Y-m-d H:i:s"), 
+                "Ratatouille", 
+                "Deze ratatouille is niet alleen heerlijk, maar ook een visueel aantrekkelijk gerecht. Serveer warm als bijgerecht of hoofdgerecht. Eet smakelijk!", 
+                random_int(0,100), ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
+                "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
+                "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
+                "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
+                "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
+                "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."],
+                []),
+                [
+                    new Ingredient(0,"bloem","",250,"gram"),
+                    new Ingredient(0,"eieren","",2,""),
+                    new Ingredient(0,"melk","",500,"ml"),
+                    new Ingredient(0,"zout","",1,"Snufje"),
+                    new Ingredient(0,"boter","",20,"gram")
+                ]
+            );
+        }
+
+        public function populateDatabaseWithTestRecipe(Recipe $newRecipe, array $newIngredients){
+            $newRecipeID = $this->addRecipe($newRecipe);
+            $newRecipe->setID($newRecipeID);
+
+            foreach ($newIngredients as $ingredient) {
+                $newIngredientID = $this->addIngredient($ingredient);
+                $ingredient->setID($newIngredientID);
+                $this->addIngredientToRecipe($newRecipe,$ingredient);
             }
         }
 
@@ -110,7 +245,7 @@
 
                 $statement->execute();
                 $id = $this->dbConnection->lastInsertId();
-                echo "added new recipe with id:$id<br>";
+                //echo "added new recipe with id:$id<br>";
                 return (int)$id;
             } 
             catch (Exception $exception) {
@@ -122,6 +257,16 @@
 
         public function addIngredient(Ingredient $ingredient): int|null{
             try {
+                $name = $ingredient->getName();
+                //echo "adding $name"."<br>";
+                $statement = $this->dbConnection->prepare("SELECT * FROM ingredients WHERE ingredient_name = '$name'");
+                if($statement->execute()){
+                    $result = $statement->fetch(PDO::FETCH_ASSOC);
+                    if($result){
+                        return $result['id'];
+                    }
+                }
+
                 $tableData = $ingredient->convertToDatabaseFormat();
                 $columnHeaders = implode(',',$tableData->headers);
                 $columnValues = implode(',',$tableData->values);
@@ -131,7 +276,7 @@
                 $statement->execute();
 
                 $id = $this->dbConnection->lastInsertId();
-                if(!is_bool($id)){
+                if(is_numeric($id)){
                     return (int)$id;
                 }
                 return null;
@@ -142,18 +287,18 @@
             }
         }
 
-        public function addIngredientToRecipe(Recipe $recipe, Ingredient $ingredient, bool $newIngredient = false){
+        public function addIngredientToRecipe(Recipe $recipe, Ingredient $ingredient){
             try {
-                if($newIngredient){
-                    $this->addIngredient($ingredient);
-                    //TODO: get new ingredient entry ID
-                    //note need to ensure we retrieve the correct latest added
-                }
+                $tableData = $ingredient->convertToJoinTableFormat();
+                array_unshift($tableData->headers,"recipe_id");
+                array_unshift($tableData->values,$recipe->getID());
+                $columnHeaders = implode(',',$tableData->headers);
+                $columnValues = implode(',',$tableData->values);
 
-                if(is_null($ingredient->getID())){
-                    throw new Exception("ingredient missing valid ID");
-                    return;
-                }
+                $statement = $this->dbConnection->prepare("INSERT INTO $this->joinTableName ($columnHeaders)
+                VALUES($columnValues)");
+                $statement->execute();
+                
             } 
             catch (Exception $exception) {
                 //throw $exception;
@@ -324,43 +469,7 @@
 #end region
     }
 
-#test Adding recipe
-    // $dbm = new DatabaseManager();
-    // $newRecipe = new Recipe(0, date("Y-m-d H:i:s"), "Recipe No: ".random_int(0,100), "brief_description", random_int(0,100), "instruction list",[]);
-    // $dbm->addRecipe($newRecipe);
+#test testing database
+    //$dbm = new DatabaseManager();
 #end region
-
-
-    // $recipes = $dbm->getAllRecipes();
-    // foreach($recipes as $key => $recipe){
-    //     echo $recipe->getName(). "<br>";
-    //     echo $key . "<br>";
-    // }
-    //$recipe = $dbm->getRecipe("2");
-    //$converted = $recipe->convertToDatabaseFormat();
-    //echo var_export($dbm->addRecipe(new Recipe("4", "12-2-2023", "Test", "Description", 15, "1 Test", []))) . "<br>";
-    //echo var_dump($converted);
-    
-    
-    //echo var_export($dbm->deleteRecipe(1), true);
-
-
-    // $recipe = $dbm->getRecipe(1);
-
-    //echo var_dump($recipe->getIngredients());
-
-    // echo "test error handling<br>";
-    // $testRecipe = new Recipe(0, date("Y-m-d H:i:s"), "recipe title", "brief_description", 69, "instruction list",[]);
-    // try {
-    //     $result = $dbm->addRecipe($testRecipe);
-    //     echo "result:".$result."<br><br>";
-    //     echo "$result is van type: ".gettype($result)."<br>";
-    // } catch (\Throwable $th) {
-    //     echo "caught error <br><br>";
-    // }
-    
-
-    // $updateRecipe = new Recipe(0, date("Y-m-d H:i:s"), "updated recipe title", "updated description", 109, "new instruction list",[]);
-    // $dbm->updateRecipe(8,$updateRecipe);
-    
 ?>
