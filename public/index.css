@@ -1,0 +1,14 @@
+#carousel-main{
+    display:flex; 
+    flex-direction:column; 
+    align-items: center;
+}
+
+#test{
+    color: red !important;
+}
+
+.thumbnail-small{
+    height: 240px;
+    width: 320px;
+}
