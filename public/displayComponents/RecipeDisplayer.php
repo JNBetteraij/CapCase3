@@ -3,18 +3,21 @@ include_once('../classes/RecipeRequester.php');
     class RecipeDisplayer{
 
         private RecipeRequester $recipeRequester;
-        private array $recipes;
+        private int $id;
+        private Recipe $recipe;
 
-        public function __construct(){
+        public function __construct($id){
             $this->recipeRequester = new RecipeRequester();
-            $this->recipes = $this->getAllRecipes();
+            $this->id = $id;
+            $this->recipe = $this->getRecipe();
         }
     
         public function getAllRecipes(): array{
             return $this->recipeRequester->requestAllRecipes();
         }
 
-        public static function convertRecipeToHTML(Recipe $recipe){
+        public function convertRecipeToHTML(){
+            $recipe = $this->recipe;
             $replace = ["{id}", "{date}", "{name}", "{description}", "{prepTime}", "{instructions}", "{ingredients}"];
             $values = [
                 $recipe->getID(), 
@@ -24,6 +27,10 @@ include_once('../classes/RecipeRequester.php');
                 $recipe->getPrepTime(), RecipeDisplayer::convertInstructionsToHTML($recipe->getInstructions()),
                 RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients())
             ];
+            $ingr = $recipe->getIngredients();
+            foreach ($ingr as $ingredient) {
+                echo $ingredient->getName()."<br>";
+            }
             //$ingredients = recipeRequester->requestAllIngredientsFromRecipe($recipe->getID());
             // $ingredients = RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients());
             // array_push($values, $ingredients);
@@ -49,6 +56,10 @@ include_once('../classes/RecipeRequester.php');
                 $convertedHTML .= str_replace($replace, $ingredient->getName(), $template);
             }
             return $convertedHTML;
+        }
+
+        public function getRecipe(): Recipe{
+            return $this->recipeRequester->requestRecipeByID($this->id);
         }
     }
 ?>

@@ -1,7 +1,11 @@
 <?php declare(strict_types = 1);
+    require_once "../classes/recipe.php";
+    require_once "../classes/Ingredient.php";
+    require_once "../classes/Sanitize.php";
 
-    include_once("../classes/recipe.php");
-    include_once("../classes/Ingredient.php");
+    //for debugging
+    include_once "../dev/QueryEcho.php";
+    
     class DatabaseManager{
         private PDO $dbConnection;
 
@@ -324,9 +328,9 @@
 
             $ingredients = $this->getAllIngredientsFromRecipe($id);
 
-            // echo "<br>";
-            // echo count($ingredients);
-            // echo "<br>";echo "<br>";
+            echo "<br>";
+            echo count($ingredients);
+            echo "<br>";echo "<br>";
             // echo var_dump($ingredients[1]);
 
             $recipe->setIngredients($ingredients);
@@ -339,15 +343,14 @@
             $statement = $this->dbConnection->query("SELECT * FROM recipes");
             $statement->execute();
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            QueryEcho::asTable($data);
+
             $recipes = [];
             foreach ($data as $row){
                 array_push($recipes, $this->createRecipeObject($row));
             }
             return $recipes;
-            /*foreach($recipes as $key => $recipe){
-                echo $recipe["name"]. "<br>";
-                echo $key . "<br>";
-            }*/
         }
 
         public function getAllIngredientsFromRecipe($id): array{
@@ -358,32 +361,16 @@
             $this->joinTableName.amount,
             $this->joinTableName.units
             FROM $this->joinTableName
-            INNER JOIN $this->ingredientTableName ON $this->joinTableName.ingredient_id
-            WHERE $this->joinTableName.recipe_id = $id");
-
+            RIGHT JOIN $this->ingredientTableName 
+            ON $this->joinTableName.ingredient_id = $this->ingredientTableName.id
+            WHERE $this->joinTableName.recipe_id = $id");            
             $statement->execute();
-
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            QueryEcho::asTable($data);
 
             $ingredients = [];
-            // echo count($data);
-
-            for ($i=count($data) - 1 ; $i >= 0 ; $i--) { 
-                if ($i % 2 == 0){
-                    // echo "<br>";
-                    array_splice($data, $i, 1);
-                }
-                else{
-
-                    // echo count(array_values($data[$i]));
-                    // echo "<br>";
-                    array_push($ingredients, new Ingredient(...array_values($data[$i])));
-                }
-            }
-
-
-            foreach ($data as $row){
-                
+            foreach ($data as $key => $row) {
+                array_push($ingredients, new Ingredient(...array_values($row)));
             }
             return $ingredients;
         }

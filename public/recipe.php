@@ -2,8 +2,19 @@
 
 include_once '../classes/RecipeRequester.php';
 include_once 'displayComponents/RecipeDisplayer.php';
+require_once '../classes/Sanitize.php';
 
-$recipeRequester = new RecipeRequester();
+$displayHTML = "Not a valid recipe ID.";
+if(empty($_GET["id"]) || !is_numeric($_GET["id"])){
+    
+}
+else{
+    $recipeID = (int)Sanitize::stringInput($_GET["id"]);
+    $_GET["id"] = "";
+    $recipeDisplayer = new RecipeDisplayer($recipeID);
+    
+    $displayHTML = $recipeDisplayer->convertRecipeToHTML();
+}
 
 $recipeID = "Recipe missing";
 ?>
@@ -24,37 +35,7 @@ $recipeID = "Recipe missing";
     </header>
     <main>
         <p>
-            <?php
-
-            function sanitizeInput(string $data): string 
-            {   
-                $data = trim($data);
-                $data = stripslashes($data);
-                $data = htmlspecialchars($data);   
-                return $data; 
-            }
-
-            if(empty($_GET["id"]) || !is_numeric($_GET["id"])){
-                echo "Not a valid recipe ID.";
-            }
-            else{
-                $recipeID = (int)sanitizeInput($_GET["id"]); //Dit moet nog gevalideerd worden!
-                $retrievedRecipe = $recipeRequester->requestRecipeByID($recipeID);
-                //echo $retrievedRecipe->getInstructions();
-                echo RecipeDisplayer::convertRecipeToHTML($retrievedRecipe);
-                $_GET["id"] = "";
-            }
-            
-            ?>
-
-            <br>
-
-            <?php
-                // $recipes = $recipeRequester->requestAllRecipes();
-                // foreach ($recipes as $recipe){
-                //     echo $recipe->getID() . "<br>";
-                // }
-            ?>
+            <?php echo $displayHTML; ?>
         </p>
         <a href="index.php">Terug naar de homepage</a>
     </main>
