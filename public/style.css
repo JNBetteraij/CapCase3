@@ -2,3 +2,50 @@
     display: grid;
     background-color: red;
 }
+
+.thumbnail-small{
+    height: 240px;
+    width: 320px;
+}
+
+.thumbnail:hover .thumbnail-small{
+    opacity: 0.3;
+}
+
+.thumbnail:hover .thumbnail-name{
+    opacity: 0.9;
+}
+
+.thumbnail-text-div{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 150px;
+    height: 75px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.thumbnail-text-div p{
+    color: #fff;
+}
+
+.white-text{
+    color: #fff;
+}
+
+.white-text:hover, .white-text:visited, .white-text:link, .white-text:active{
+    text-decoration: none !important;
+}
+
+.thumbnail-middle{
+    opacity: 0;
+    position: relative;
+    top: -50%;
+    left: 26.5%; /*Don't question it*/
+}
+
+.ingredient-image-display{
+    display: flex;
+    justify-content: space-between;
+}

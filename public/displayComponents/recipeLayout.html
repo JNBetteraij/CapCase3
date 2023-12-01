@@ -1,14 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <h1>Recept voor {name}</h1>
+    <h4>{description}</h4>
+    <h4>Bereidingsduur: {prepTime} min.</h4>
+    <div class="ingredient-image-display">
+        <div>
+            <h4>Ingredienten: </h4>
+            <ul>
+                {ingredients}
+            </ul>
+        </div>
+        <div>
+            <img src="../public/displayComponents/images/{id}.jpg" style="height: 480px; width:640px">
+        </div>
+    </div>
+    <h4>Instructies: </h4>
+    <ul>
+        {instructions}
+    </ul>
 
-<h1>Recept voor {name}</h1>
-<h4>{description}</h4>
-<h4>Bereidingsduur: {prepTime} min.</h4>
-<h4>Ingredienten: </h4>
-<ul>
-    {ingredients}
-</ul>
-<h4>Instructies: </h4>
-<ul>
-    {instructions}
-</ul>
-
-<h3>Eet Smakelijk!</h3>
+    <h3>Eet Smakelijk!</h3>
+</html>
