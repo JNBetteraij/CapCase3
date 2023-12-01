@@ -2,8 +2,12 @@
     
 class RecipeListDisplay{
     private RecipeRequester $recipeRequester;
+    private int $displayAmount;
+    private int $startIndex;
 
-    public function __construct(){
+    public function __construct(int $displayAmount = PHP_INT_MAX, int $startIndex = 0){
+        $this->displayAmount = $displayAmount;
+        $this->startIndex = $startIndex;
         $this->recipeRequester = new RecipeRequester();
     }
 
@@ -17,11 +21,7 @@ class RecipeListDisplay{
     private function getThumbnailElements(int $maxAmount = PHP_INT_MAX, int $startIndex = 0): array{
         $elements = [];
 
-        $recipes = $this->getAllRecipes();
-
-        if($startIndex > 0){
-            $recipes = array_slice($recipes,$startIndex, $maxAmount+$startIndex);
-        }
+        $recipes = $this->getRecipes($this->displayAmount, $this->startIndex);
 
         foreach ($recipes as $recipe){
             $newElement = $this->convertRecipeToThumbnailElement($recipe);
@@ -29,6 +29,15 @@ class RecipeListDisplay{
         }
         
         return $elements;
+    }
+
+    public function getRecipes(int $maxAmount = PHP_INT_MAX, int $startIndex = 0): array{
+        $recipes = $this->getAllRecipes();
+
+        if($startIndex > 0){
+            $recipes = array_slice($recipes,$startIndex, $maxAmount+$startIndex);
+        }
+        return $recipes;
     }
 
     public function getAllRecipes(): array{

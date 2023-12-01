@@ -86,10 +86,10 @@ class Recipe implements Storable{
         $tableData = new stdClass();
         $tableData->headers = ["recipe_name", "brief_description", "preparation_time", "instructions"];
         $tableData->values = [ 
-            $this->inQuotes($this->name),
-            $this->inQuotes($this->description),
-            $this->prepTime,
-            $this->inQuotes($this->instructions)
+            $this->inQuotes($this->getName()),
+            $this->inQuotes($this->getDescription()),
+            $this->getPrepTime(),
+            $this->inQuotes(json_encode($this->getInstructions()))
         ];
         return $tableData;
     }
