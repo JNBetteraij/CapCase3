@@ -6,6 +6,7 @@ require 'indexClasses.php';
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="index.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Receptenboek</title>   
@@ -14,14 +15,9 @@ require 'indexClasses.php';
 
 </head>
 <body>
-    <header class="text-center">
-        <h1>
-            Het lekkerste kookboek
-        </h1>
-    </header>
-    <main>
-        <?php $featuredComponent->displayFeaturedRecipe();?>
-        <?php $displayComponent->displayRecipeList();?>
-    </main>
+    <?php include_once("displayComponents/header.html");?>
+    <?php $smallList = new RecipeListDisplay();
+    $smallList->displayRecipeList(3);
+    ?>
 </body>
 </html>

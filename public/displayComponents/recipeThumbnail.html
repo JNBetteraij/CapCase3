@@ -1,7 +1,13 @@
 <!DOCTYPE html>
+
 <html>
-    <div class="col p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
-        <a href= "../public/recipe.php?id={id}">{name}</a>
+    <div class="col mt-3 thumbnail">
+        <a href="../public/recipe.php?id={id}">
+            <img src="../public/displayComponents/images/{id}.jpg" class="thumbnail-small">
+        </a>
+        <div class="thumbnail-name thumbnail-middle thumbnail-text-div" >
+            <p>{name}</p>
+        </div>
     </div>
 </html>
 
