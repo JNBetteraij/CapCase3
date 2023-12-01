@@ -18,7 +18,7 @@ class RecipeListDisplay{
         echo str_replace($replace, $values, $template);
     }
 
-    private function getThumbnailElements(): array{
+    private function getThumbnailElements(int $maxAmount = PHP_INT_MAX, int $startIndex = 0): array{
         $elements = [];
 
         $recipes = $this->getRecipes($this->displayAmount, $this->startIndex);
@@ -45,8 +45,8 @@ class RecipeListDisplay{
     }
 
     private function convertRecipeToThumbnailElement(Recipe $recipe): string{
-        $replace = ["{name}","{id}"];
-        $value = [$recipe->getName(),$recipe->getID()];
+        $replace = ["{id}", "{name}"];
+        $value = [$recipe->getID(), $recipe->getName()];
 
         $template = file_get_contents("displayComponents/recipeThumbnail.html");
         return str_replace($replace, $value, $template);

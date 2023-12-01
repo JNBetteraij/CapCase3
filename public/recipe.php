@@ -22,18 +22,15 @@ $recipeID = "Recipe missing";
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Receptenboek</title>   
 </title>
 </head>
 <body>
-    <header>
-        <h1>
-            Recept Pagina
-        </h1>
-    </header>
-    <main>
+    <?php include("displayComponents/header.html");?>
+    <main style="max-width: 80%; margin-left: auto; margin-right: auto">
         <p>
             <?php echo $displayHTML; ?>
         </p>

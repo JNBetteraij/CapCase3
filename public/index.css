@@ -1,0 +1,40 @@
+#carousel-main{
+    display:flex; 
+    flex-direction:column; 
+    align-items: center;
+}
+
+#test{
+    color: red !important;
+}
+
+.thumbnail-small{
+    height: 240px;
+    width: 320px;
+}
+
+.thumbnail:hover .thumbnail-small{
+    opacity: 0.3;
+}
+
+.thumbnail:hover .thumbnail-name{
+    opacity: 0.9;
+}
+
+.thumbnail-text-div{
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 150px;
+    height: 75px;
+    padding: 5px;
+}
+
+.thumbnail-text-div p{
+    color: #fff;
+}
+
+.thumbnail-middle{
+    opacity: 0;
+    position: relative;
+    top: -50%;
+    left: 26.5%; *//*Don't question it*/
+}
