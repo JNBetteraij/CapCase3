@@ -1,7 +1,7 @@
 <?php 
 include_once '../dev/tableElement/TableElement.php';
 
-class QueryEcho{
+class EchoQuery{
     public static function asTable(mixed $fetchedArray): void {
         if(!$fetchedArray){
            echo "fetch returned as failed";

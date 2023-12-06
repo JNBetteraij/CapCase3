@@ -85,6 +85,9 @@ class Recipe implements Storable{
     public function getRecipeTableValues(): object {
         $tableData = new stdClass();
         $tableData->headers = ["recipe_name", "brief_description", "preparation_time", "instructions"];
+        // echo "<pre>".$this->getDescription()."</pre>";
+        // echo "<pre>".var_dump($this->getInstructions())."</pre>";
+        // echo "<pre>".json_encode($this->getInstructions())."</pre>";
         $tableData->values = [ 
             $this->inQuotes($this->getName()),
             $this->inQuotes($this->getDescription()),
@@ -95,6 +98,6 @@ class Recipe implements Storable{
     }
 
     private function inQuotes($text): string{
-        return "'" . trim($text) . "'";
+        return "'" . $text . "'";
     }
 }

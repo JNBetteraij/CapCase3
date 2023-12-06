@@ -27,10 +27,10 @@ include_once('../classes/RecipeRequester.php');
                 $recipe->getPrepTime(), RecipeDisplayer::convertInstructionsToHTML($recipe->getInstructions()),
                 RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients())
             ];
-            $ingr = $recipe->getIngredients();
-            foreach ($ingr as $ingredient) {
-                echo $ingredient->getName()."<br>";
-            }
+            // $ingr = $recipe->getIngredients();
+            // foreach ($ingr as $ingredient) {
+            //     echo $ingredient->getName()."<br>";
+            // }
             //$ingredients = recipeRequester->requestAllIngredientsFromRecipe($recipe->getID());
             // $ingredients = RecipeDisplayer::convertIngredientsToHTML($recipe->getIngredients());
             // array_push($values, $ingredients);
@@ -51,9 +51,9 @@ include_once('../classes/RecipeRequester.php');
         public static function convertIngredientsToHTML(array $ingredients){
             $convertedHTML = "";
             foreach ($ingredients as $ingredient){
-                $replace = ["{ingredients}"];
+                $replace = ["{ingredients}","{amount}","{unit}"];
                 $template = file_get_contents("displayComponents/recipeIngredient.html");
-                $convertedHTML .= str_replace($replace, $ingredient->getName(), $template);
+                $convertedHTML .= str_replace($replace, [$ingredient->getName(), $ingredient->getAmount(), $ingredient->getUnits()], $template);
             }
             return $convertedHTML;
         }

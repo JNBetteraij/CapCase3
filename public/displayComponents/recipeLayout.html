@@ -1,14 +1,24 @@
 
-<h1>Recept voor {name}</h1>
-<h4>{description}</h4>
-<h4>Bereidingsduur: {prepTime} min.</h4>
-<h4>Ingredienten: </h4>
-<ul>
-    {ingredients}
-</ul>
-<h4>Instructies: </h4>
-<ul>
-    {instructions}
-</ul>
+<div style="max-width: 80%;">
+    <h1>Recept voor {name}</h1>
+    <p>{description}</p>
+    <p>Bereidingsduur: {prepTime} min.</p>
 
-<h3>Eet Smakelijk!</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h4>Ingredienten: </h4>
+                <ul>
+                    {ingredients}
+                </ul>
+            </div>
+            <div class="col-xl">
+                <h4>Instructies: </h4>
+                <div>
+                    {instructions}
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>Eet Smakelijk!</h3>
+</div>
