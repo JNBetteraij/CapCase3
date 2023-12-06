@@ -1,7 +1,11 @@
 <?php declare(strict_types = 1);
+    require_once "../classes/recipe.php";
+    require_once "../classes/Ingredient.php";
+    require_once "../classes/Sanitize.php";
 
-    include_once("../classes/recipe.php");
-    include_once("../classes/Ingredient.php");
+    // //for debugging
+    // include_once "../dev/EchoQuery.php";
+    
     class DatabaseManager{
         private PDO $dbConnection;
 
@@ -54,18 +58,22 @@
 
             $this->populateDatabaseWithTestRecipe(
                 new Recipe(2, date("Y-m-d H:i:s"), "Kipsate", "Een heerlijke combinatie van smaken en texturen, typisch voor de Maleisische keuken. Eet smakelijk!", random_int(0,100),
-                ["Maak een kuiltje in de bloem in een kom. Voeg de eieren en een beetje melk toe. Meng dit geleidelijk, voeg steeds meer melk toe tot een glad beslag.",
-                "Voeg een snufje zout toe. Naar wens kun je zoete of hartige ingrediënten toevoegen.",
-                "Verhit een klontje boter of wat olie in een koekenpan op middelhoog vuur.",
-                "Schenk een pollepel beslag in de pan, kantel voor een egale verdeling.",
-                "Bak de pannenkoek circa 2 minuten tot de onderkant goudbruin is, keer dan om. Bak de andere kant ook tot goudbruin.",
-                "Serveer de pannenkoeken warm. Traditioneel met stroop of poedersuiker, maar voel je vrij om te experimenteren met andere toppings."],[]),
+                ["Begin met de marinade voor de kipsaté: Meng sojasaus, honing, kurkuma, komijn, koriander, knoflook, gember, citroensap, zout en peper. Marineer de kipreepjes hierin voor minimaal 1 uur.",
+                    "Bereid de ketupat voor: Was de kleefrijst en week deze 30 minuten. Vorm zakjes van palmbladeren en vul ze voor de helft met rijst. Kook deze pakketjes 90 minuten.
+                    ",
+                    "Terwijl de ketupat kookt, rijg de gemarineerde kip aan de bamboe spiesjes en grill ze ongeveer 3-4 minuten per kant.
+                    ",
+                    "Maak de pindasaus: Meng gemalen pinda's, sojasaus, bruine suiker, chilipoeder, knoflook, kokosmelk en tamarinde pasta in een pan. Verwarm op laag vuur tot de saus indikt. Voeg zout naar smaak toe.",
+                    "Serveer de gegrilde kipsaté met de warme pindasaus en de ketupat aan de zijkant."],
+                []),
                 [
-                    new Ingredient(0,"bloem","",250,"gram"),
-                    new Ingredient(0,"eieren","",2,""),
-                    new Ingredient(0,"melk","",500,"ml"),
-                    new Ingredient(0,"zout","",1,"Snufje"),
-                    new Ingredient(0,"boter","",20,"gram")
+                    new Ingredient(0,"geroosterde pindas","fijn gemalen",1,"kop"),
+                    new Ingredient(0,"sojasaus","",1,"eetlepel"),
+                    new Ingredient(0,"bruine suiker","",2,"theelepels"),
+                    new Ingredient(0,"chilipoeder","",1,"theelepel"),
+                    new Ingredient(0,"knoflook","fijngesneden",1,"teentje"),
+                    new Ingredient(0,"kokosmelk","",1,"kop"),
+                    new Ingredient(0,"tamarinde pasta","",1,"eetlepel")
                 ]
             );
 
@@ -174,7 +182,7 @@
         private function createDatabase(): void{
             try {
                 $conn = new PDO("mysql:host=$this->host", $this->username, $this->password);
-                $conn->exec("CREATE DATABASE $this->dbname");
+                $conn->exec("CREATE DATABASE $this->dbname CHARACTER SET utf8");
                 $conn = null;
             } 
             catch (PDOException $pdoException) {
@@ -238,7 +246,6 @@
                 $recipeTableData = $recipe->getRecipeTableValues();
                 $columnHeaders = implode(',',$recipeTableData->headers);
                 $columnValues = implode(',',$recipeTableData->values);
-
 
                 $statement = $this->dbConnection->prepare("INSERT INTO $this->recipeTableName ($columnHeaders)
                 VALUES($columnValues)");
@@ -317,21 +324,11 @@
             $statement = $this->dbConnection->prepare("SELECT * FROM $this->recipeTableName WHERE id = $id");
             $statement->execute();
             $data = $statement->fetch(PDO::FETCH_ASSOC);
-            //$data = $statement->fetchAll(PDO::FETCH_ASSOC)[0];
             $recipe = $this->createRecipeObject($data);
 
             //get recipe id, fetch all ingredient data through the join table, add these to ingredients in the recipe
-
             $ingredients = $this->getAllIngredientsFromRecipe($id);
-
-            // echo "<br>";
-            // echo count($ingredients);
-            // echo "<br>";echo "<br>";
-            // echo var_dump($ingredients[1]);
-
             $recipe->setIngredients($ingredients);
-            // echo "<br>";echo "<br>";
-            // echo var_dump($recipe);
             return $recipe;
         }
 
@@ -339,15 +336,13 @@
             $statement = $this->dbConnection->query("SELECT * FROM recipes");
             $statement->execute();
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            //EchoQuery::asTable($data);
             $recipes = [];
             foreach ($data as $row){
                 array_push($recipes, $this->createRecipeObject($row));
             }
             return $recipes;
-            /*foreach($recipes as $key => $recipe){
-                echo $recipe["name"]. "<br>";
-                echo $key . "<br>";
-            }*/
         }
 
         public function getAllIngredientsFromRecipe($id): array{
@@ -358,32 +353,16 @@
             $this->joinTableName.amount,
             $this->joinTableName.units
             FROM $this->joinTableName
-            INNER JOIN $this->ingredientTableName ON $this->joinTableName.ingredient_id
-            WHERE $this->joinTableName.recipe_id = $id");
-
+            RIGHT JOIN $this->ingredientTableName 
+            ON $this->joinTableName.ingredient_id = $this->ingredientTableName.id
+            WHERE $this->joinTableName.recipe_id = $id");            
             $statement->execute();
-
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+            //EchoQuery::asTable($data);
 
             $ingredients = [];
-            // echo count($data);
-
-            for ($i=count($data) - 1 ; $i >= 0 ; $i--) { 
-                if ($i % 2 == 0){
-                    // echo "<br>";
-                    array_splice($data, $i, 1);
-                }
-                else{
-
-                    // echo count(array_values($data[$i]));
-                    // echo "<br>";
-                    array_push($ingredients, new Ingredient(...array_values($data[$i])));
-                }
-            }
-
-
-            foreach ($data as $row){
-                
+            foreach ($data as $key => $row) {
+                array_push($ingredients, new Ingredient(...array_values($row)));
             }
             return $ingredients;
         }
@@ -393,16 +372,6 @@
             $values = [...array_values($data), []]; //the trailing [] is a placeholder for ingredients
             return new Recipe(...$values);
         }
-
-        // private function  createIngredientObject($data): Ingredient{
-        //     $values = [];
-        //     foreach($data as $key => $row){
-        //             array_push($values, $row); 
-        //         }
-
-        //     $ingredient = new Ingredient(...$values);
-        //     return $ingredient;
-        // }
 #end region
 
 #region update entries
